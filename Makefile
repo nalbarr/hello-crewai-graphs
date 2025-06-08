@@ -4,6 +4,7 @@ help:
 	@echo make run
 	@echo make run-1
 	@echo make run-2
+	@echo make run-3
 
 init:
 	uv venv --python 3.12
@@ -15,3 +16,6 @@ run-1:
 
 run-2:
 	uv run customer_support.py
+
+run-3:
+	uv run customer_outreach.py
