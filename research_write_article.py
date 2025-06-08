@@ -11,6 +11,7 @@ def filter_warnings():
     import warnings
     warnings.filterwarnings('ignore')
 
+
 def create_planner():
     planner = Agent(
     role="Content Planner",
@@ -26,6 +27,7 @@ def create_planner():
 	verbose=True
     )
     return planner
+
 
 def create_writer():
     writer = Agent(
@@ -51,6 +53,7 @@ def create_writer():
     )
     return writer
 
+
 def create_plan(planner):
     plan = Task(
     description=(
@@ -69,6 +72,7 @@ def create_plan(planner):
     )
     return plan
 
+
 def create_editor():
     editor = Agent(
         role="Editor",
@@ -86,6 +90,7 @@ def create_editor():
         verbose=True
     )
     return editor    
+
 
 def create_write(writer):
     write = Task(
@@ -108,6 +113,7 @@ def create_write(writer):
     )
     return write
 
+
 def create_edit(editor):
     edit = Task(
         description=("Proofread the given blog post for "
@@ -119,6 +125,7 @@ def create_edit(editor):
         agent=editor
     )
     return edit    
+
 
 def main():
     filter_warnings()
@@ -141,6 +148,7 @@ def main():
     )
 
     result = crew.kickoff(inputs={"topic": "Artificial Intelligence"})
+
 
 if __name__ == "__main__":
     main()
