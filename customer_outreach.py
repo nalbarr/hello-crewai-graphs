@@ -27,7 +27,28 @@ def init():
 
     openai_api_key = get_openai_api_key()
     os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
-    os.environ["SERPER_API_KEY"] = get_serper_api_key()    
+    os.environ["SERPER_API_KEY"] = get_serper_api_key()
+    return openai_api_key    
+
+
+def create_support_agent():
+    support_agent = Agent(
+    role="Senior Support Representative",
+	goal="Be the most friendly and helpful "
+        "support representative in your team",
+	backstory=(
+		"You work at crewAI (https://crewai.com) and "
+        " are now working on providing "
+		"support to {customer}, a super important customer "
+        " for your company."
+		"You need to make sure that you provide the best support!"
+		"Make sure to provide full complete answers, "
+        " and make no assumptions."
+	),
+	allow_delegation=False,
+	verbose=True
+    )
+    return support_agent
 
 
 def create_sales_rep_agent():
@@ -164,6 +185,7 @@ def create_personalized_outreach(other_tools, lead_sales_rep_agent):
 
 def main():
     filter_warnings()
+    init()
 
     # agents
     sales_rep_agent = create_sales_rep_agent()

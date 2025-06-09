@@ -6,13 +6,15 @@ from crewai import Agent, Task, Crew
 
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool, WebsiteSearchTool
 
-import os
-from utils import get_openai_api_key
-
 
 def filter_warnings():
     import warnings
     warnings.filterwarnings('ignore')
+
+
+def init():
+    import os
+    from utils import get_openai_api_key
 
 
 def create_support_agent():
@@ -110,6 +112,7 @@ def create_quality_assurance_review(support_quality_assurance_agent):
 
 def main():
     filter_warnings()
+    init()
 
     # agents
     support_agent = create_support_agent()
