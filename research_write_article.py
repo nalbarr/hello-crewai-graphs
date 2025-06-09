@@ -4,13 +4,17 @@ import langchain_community
 
 from crewai import Agent, Task, Crew
 
-import os
-from utils import get_openai_api_key
-
 def filter_warnings():
     import warnings
     warnings.filterwarnings('ignore')
 
+def init():
+    import os
+    from utils import get_openai_api_key,get_serper_api_key
+
+    openai_api_key = get_openai_api_key()
+    os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
+    return openai_api_key
 
 def create_planner():
     planner = Agent(
@@ -129,6 +133,7 @@ def create_edit(editor):
 
 def main():
     filter_warnings()
+    init()
 
     # agents
     planner = create_planner()
