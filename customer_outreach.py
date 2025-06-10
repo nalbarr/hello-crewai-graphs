@@ -1,4 +1,5 @@
 import crewai
+
 # NOTE:
 # - favor import of crew.ai
 # import crewai_tools
@@ -6,6 +7,7 @@ from crewai import Agent, Task, Crew
 from crewai_tools import DirectoryReadTool
 from crewai_tools import FileReadTool
 from crewai_tools import SerperDevTool
+
 # NOTE:
 # - Below does not work
 # from crewai_tools import BaseTool
@@ -15,9 +17,11 @@ from crewai.tools import BaseTool
 import os
 from utils import get_openai_api_key
 
+
 def filter_warnings():
     import warnings
-    warnings.filterwarnings('ignore')
+
+    warnings.filterwarnings("ignore")
 
 
 def init():
@@ -26,27 +30,26 @@ def init():
     from utils import get_serper_api_key
 
     openai_api_key = get_openai_api_key()
-    os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
+    os.environ["OPENAI_MODEL_NAME"] = "gpt-3.5-turbo"
     os.environ["SERPER_API_KEY"] = get_serper_api_key()
-    return openai_api_key    
+    return openai_api_key
 
 
 def create_support_agent():
     support_agent = Agent(
-    role="Senior Support Representative",
-	goal="Be the most friendly and helpful "
-        "support representative in your team",
-	backstory=(
-		"You work at crewAI (https://crewai.com) and "
-        " are now working on providing "
-		"support to {customer}, a super important customer "
-        " for your company."
-		"You need to make sure that you provide the best support!"
-		"Make sure to provide full complete answers, "
-        " and make no assumptions."
-	),
-	allow_delegation=False,
-	verbose=True
+        role="Senior Support Representative",
+        goal="Be the most friendly and helpful " "support representative in your team",
+        backstory=(
+            "You work at crewAI (https://crewai.com) and "
+            " are now working on providing "
+            "support to {customer}, a super important customer "
+            " for your company."
+            "You need to make sure that you provide the best support!"
+            "Make sure to provide full complete answers, "
+            " and make no assumptions."
+        ),
+        allow_delegation=False,
+        verbose=True,
     )
     return support_agent
 
@@ -54,8 +57,7 @@ def create_support_agent():
 def create_sales_rep_agent():
     sales_rep_agent = Agent(
         role="Sales Representative",
-        goal="Identify high-value leads that match "
-            "our ideal customer profile",
+        goal="Identify high-value leads that match " "our ideal customer profile",
         backstory=(
             "As a part of the dynamic sales team at CrewAI, "
             "your mission is to scour "
@@ -68,7 +70,7 @@ def create_sales_rep_agent():
             "for meaningful engagements and driving the company's growth."
         ),
         allow_delegation=False,
-        verbose=True
+        verbose=True,
     )
     return sales_rep_agent
 
@@ -89,7 +91,7 @@ def create_lead_sales_rep_agent():
             "from curiosity to commitment."
         ),
         allow_delegation=False,
-        verbose=True
+        verbose=True,
     )
     return lead_sales_rep_agent
 
@@ -109,9 +111,11 @@ def create_serperdev_tool():
 
 class SentimentAnalysisTool(BaseTool):
     name: str = "Sentiment Analysis Tool"
-    description: str = ("Analyzes the sentiment of test "
-        "to ensure positive and engaging communication.")
-    
+    description: str = (
+        "Analyzes the sentiment of test "
+        "to ensure positive and engaging communication."
+    )
+
     def _run(self, test: str) -> str:
         return "positive"
 
@@ -151,36 +155,36 @@ def create_lead_profiling(tools, sales_rep_agent):
 
 
 def create_personalized_outreach(other_tools, lead_sales_rep_agent):
-        personalized_outreach_task = Task(
-            description=(
-                "Using the insights gathered from "
-                "the lead profiling report on {lead_name}, "
-                "craft a personalized outreach campaign "
-                "aimed at {key_decision_maker}, "
-                "the {position} of {lead_name}. "
-                "The campaign should address their recent {milestone} "
-                "and how our solutions can support their goals. "
-                "Your communication must resonate "
-                "with {lead_name}'s company culture and values, "
-                "demonstrating a deep understanding of "
-                "their business and needs.\n"
-                "Don't make assumptions and only "
-                "use information you absolutely sure about."
-            ),
-            expected_output=(
-                "A series of personalized email drafts "
-                "tailored to {lead_name}, "
-                "specifically targeting {key_decision_maker}."
-                "Each draft should include "
-                "a compelling narrative that connects our solutions "
-                "with their recent achievements and future goals. "
-                "Ensure the tone is engaging, professional, "
-                "and aligned with {lead_name}'s corporate identity."
-            ),
-            tools=other_tools,
-            agent=lead_sales_rep_agent,
-        )
-        return personalized_outreach_task
+    personalized_outreach_task = Task(
+        description=(
+            "Using the insights gathered from "
+            "the lead profiling report on {lead_name}, "
+            "craft a personalized outreach campaign "
+            "aimed at {key_decision_maker}, "
+            "the {position} of {lead_name}. "
+            "The campaign should address their recent {milestone} "
+            "and how our solutions can support their goals. "
+            "Your communication must resonate "
+            "with {lead_name}'s company culture and values, "
+            "demonstrating a deep understanding of "
+            "their business and needs.\n"
+            "Don't make assumptions and only "
+            "use information you absolutely sure about."
+        ),
+        expected_output=(
+            "A series of personalized email drafts "
+            "tailored to {lead_name}, "
+            "specifically targeting {key_decision_maker}."
+            "Each draft should include "
+            "a compelling narrative that connects our solutions "
+            "with their recent achievements and future goals. "
+            "Ensure the tone is engaging, professional, "
+            "and aligned with {lead_name}'s corporate identity."
+        ),
+        tools=other_tools,
+        agent=lead_sales_rep_agent,
+    )
+    return personalized_outreach_task
 
 
 def main():
@@ -202,13 +206,15 @@ def main():
     lead_profiling_task = create_lead_profiling(tools, sales_rep_agent)
 
     other_tools = [sentiment_analysis_tool, search_tool]
-    personalized_outreach_task = create_personalized_outreach(other_tools, lead_sales_rep_agent)
+    personalized_outreach_task = create_personalized_outreach(
+        other_tools, lead_sales_rep_agent
+    )
 
     # crew
     crew = Crew(
         agents=[sales_rep_agent, lead_sales_rep_agent],
         tasks=[lead_profiling_task, personalized_outreach_task],
-        verbose=True
+        verbose=True,
     )
 
     inputs = {
@@ -216,7 +222,7 @@ def main():
         "industry": "Online Learning Platform",
         "key_decision_maker": "Andrew Ng",
         "position": "CEO",
-        "milestone": "product launch"
+        "milestone": "product launch",
     }
     result = crew.kickoff(inputs=inputs)
 

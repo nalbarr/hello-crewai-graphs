@@ -3,9 +3,11 @@ from crewai import Agent, Task, Crew, Process
 from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 from langchain_openai import ChatOpenAI
 
+
 def filter_warnings():
     import warnings
-    warnings.filterwarnings('ignore')
+
+    warnings.filterwarnings("ignore")
 
 
 def init():
@@ -14,7 +16,7 @@ def init():
     from utils import get_serper_api_key
 
     openai_api_key = get_openai_api_key()
-    os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
+    os.environ["OPENAI_MODEL_NAME"] = "gpt-3.5-turbo"
     os.environ["SERPER_API_KEY"] = get_serper_api_key()
     return openai_api_key
 
@@ -24,15 +26,15 @@ def create_data_analyst_agent(tools):
     data_analyst_agent = Agent(
         role="Data Analyst",
         goal="Monitor and analyze market data in real-time "
-            "to identify trends and predict market movements.",
+        "to identify trends and predict market movements.",
         backstory="Specializing in financial markets, this agent "
-                "uses statistical modeling and machine learning "
-                "to provide crucial insights. With a knack for data, "
-                "the Data Analyst Agent is the cornerstone for "
-                "informing trading decisions.",
+        "uses statistical modeling and machine learning "
+        "to provide crucial insights. With a knack for data, "
+        "the Data Analyst Agent is the cornerstone for "
+        "informing trading decisions.",
         verbose=True,
         allow_delegation=True,
-        tools = tools
+        tools=tools,
     )
     return data_analyst_agent
 
@@ -42,15 +44,15 @@ def create_trading_strategy_agent(tools):
     trading_strategy_agent = Agent(
         role="Trading Strategy Developer",
         goal="Develop and test various trading strategies based "
-            "on insights from the Data Analyst Agent.",
+        "on insights from the Data Analyst Agent.",
         backstory="Equipped with a deep understanding of financial "
-                "markets and quantitative analysis, this agent "
-                "devises and refines trading strategies. It evaluates "
-                "the performance of different approaches to determine "
-                "the most profitable and risk-averse options.",
+        "markets and quantitative analysis, this agent "
+        "devises and refines trading strategies. It evaluates "
+        "the performance of different approaches to determine "
+        "the most profitable and risk-averse options.",
         verbose=True,
         allow_delegation=True,
-        tools = tools
+        tools=tools,
     )
     return trading_strategy_agent
 
@@ -60,15 +62,15 @@ def create_execution_agent(tools):
     execution_agent = Agent(
         role="Trade Advisor",
         goal="Suggest optimal trade execution strategies "
-            "based on approved trading strategies.",
+        "based on approved trading strategies.",
         backstory="This agent specializes in analyzing the timing, price, "
-                "and logistical details of potential trades. By evaluating "
-                "these factors, it provides well-founded suggestions for "
-                "when and how trades should be executed to maximize "
-                "efficiency and adherence to strategy.",
+        "and logistical details of potential trades. By evaluating "
+        "these factors, it provides well-founded suggestions for "
+        "when and how trades should be executed to maximize "
+        "efficiency and adherence to strategy.",
         verbose=True,
         allow_delegation=True,
-        tools = tools
+        tools=tools,
     )
     return execution_agent
 
@@ -78,15 +80,15 @@ def create_risk_management_agent(tools):
     risk_management_agent = Agent(
         role="Risk Advisor",
         goal="Evaluate and provide insights on the risks "
-            "associated with potential trading activities.",
+        "associated with potential trading activities.",
         backstory="Armed with a deep understanding of risk assessment models "
-                "and market dynamics, this agent scrutinizes the potential "
-                "risks of proposed trades. It offers a detailed analysis of "
-                "risk exposure and suggests safeguards to ensure that "
-                "trading activities align with the firm’s risk tolerance.",
+        "and market dynamics, this agent scrutinizes the potential "
+        "risks of proposed trades. It offers a detailed analysis of "
+        "risk exposure and suggests safeguards to ensure that "
+        "trading activities align with the firm’s risk tolerance.",
         verbose=True,
         allow_delegation=True,
-        tools = tools
+        tools=tools,
     )
     return risk_management_agent
 
@@ -166,7 +168,6 @@ def main():
     filter_warnings()
     init()
 
-
     # tools
     from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 
@@ -189,32 +190,33 @@ def main():
 
     # crew
     crew = Crew(
-        agents=[data_analyst_agent, 
-                trading_strategy_agent, 
-                execution_agent, 
-                risk_management_agent],
-        
-        tasks=[data_analysis_task, 
-            strategy_development_task, 
-            execution_planning_task, 
-            risk_assessment_task],
-        
-        manager_llm=ChatOpenAI(model="gpt-3.5-turbo", 
-                            temperature=0.7),
+        agents=[
+            data_analyst_agent,
+            trading_strategy_agent,
+            execution_agent,
+            risk_management_agent,
+        ],
+        tasks=[
+            data_analysis_task,
+            strategy_development_task,
+            execution_planning_task,
+            risk_assessment_task,
+        ],
+        manager_llm=ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7),
         process=Process.hierarchical,
-        verbose=True
+        verbose=True,
     )
 
     financial_trading_inputs = {
-        'stock_selection': 'AAPL',
-        'initial_capital': '100000',
-        'risk_tolerance': 'Medium',
-        'trading_strategy_preference': 'Day Trading',
-        'news_impact_consideration': True
+        "stock_selection": "AAPL",
+        "initial_capital": "100000",
+        "risk_tolerance": "Medium",
+        "trading_strategy_preference": "Day Trading",
+        "news_impact_consideration": True,
     }
 
     ### this execution will take some time to run
-    result = crew.kickoff(inputs=financial_trading_inputs)    
+    result = crew.kickoff(inputs=financial_trading_inputs)
 
 
 if __name__ == "__main__":
