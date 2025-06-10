@@ -198,3 +198,4 @@ __marimo__
 
 # chromadb
 ./db
+db/

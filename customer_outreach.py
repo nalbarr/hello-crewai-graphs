@@ -1,8 +1,3 @@
-import crewai
-
-# NOTE:
-# - favor import of crew.ai
-# import crewai_tools
 from crewai import Agent, Task, Crew
 from crewai_tools import DirectoryReadTool
 from crewai_tools import FileReadTool
@@ -14,10 +9,6 @@ from crewai_tools import SerperDevTool
 from crewai.tools import BaseTool
 
 
-import os
-from utils import get_openai_api_key
-
-
 def filter_warnings():
     import warnings
 
@@ -26,7 +17,7 @@ def filter_warnings():
 
 def init():
     import os
-    from utils import get_openai_api_key, pretty_print_result
+    from utils import get_openai_api_key
     from utils import get_serper_api_key
 
     openai_api_key = get_openai_api_key()
@@ -38,7 +29,7 @@ def init():
 def create_support_agent():
     support_agent = Agent(
         role="Senior Support Representative",
-        goal="Be the most friendly and helpful " "support representative in your team",
+        goal="Be the most friendly and helpful support representative in your team",
         backstory=(
             "You work at crewAI (https://crewai.com) and "
             " are now working on providing "
@@ -57,7 +48,7 @@ def create_support_agent():
 def create_sales_rep_agent():
     sales_rep_agent = Agent(
         role="Sales Representative",
-        goal="Identify high-value leads that match " "our ideal customer profile",
+        goal="Identify high-value leads that match our ideal customer profile",
         backstory=(
             "As a part of the dynamic sales team at CrewAI, "
             "your mission is to scour "
@@ -112,8 +103,7 @@ def create_serperdev_tool():
 class SentimentAnalysisTool(BaseTool):
     name: str = "Sentiment Analysis Tool"
     description: str = (
-        "Analyzes the sentiment of test "
-        "to ensure positive and engaging communication."
+        "Analyzes the sentiment of test to ensure positive and engaging communication."
     )
 
     def _run(self, test: str) -> str:
@@ -225,6 +215,7 @@ def main():
         "milestone": "product launch",
     }
     result = crew.kickoff(inputs=inputs)
+    print(f"result: {result}")
 
 
 if __name__ == "__main__":

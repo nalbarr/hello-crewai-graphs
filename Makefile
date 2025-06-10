@@ -26,11 +26,13 @@ help:
 init:
 	uv venv --python 3.12
 
+# flake8 --max-line-length=100 $(SRC)
 lint:
-	flake8 $(SRC)
+	ruff check
 
+# black --line-length=100 $(SRC)
 format:
-	black $(SRC)
+	ruff format
 
 run: run-1
 

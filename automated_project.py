@@ -103,8 +103,6 @@ def main():
         verbose=True,
     )
 
-    from IPython.display import display, Markdown
-
     project = "Website"
     industry = "Technology"
     project_objectives = "Create a website for a small business"
@@ -139,6 +137,7 @@ def main():
         **Project Requirements:**
         {project_requirements}
         """
+    print(f"{formatted_output}")
 
     # project crew costs
     # TODO:

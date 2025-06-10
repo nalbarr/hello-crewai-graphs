@@ -1,10 +1,6 @@
-import crewai
-import crewai_tools
-import langchain_community
-
 from crewai import Agent, Task, Crew
 
-from crewai_tools import SerperDevTool, ScrapeWebsiteTool, WebsiteSearchTool
+from crewai_tools import ScrapeWebsiteTool
 
 
 def filter_warnings():
@@ -17,11 +13,14 @@ def init():
     import os
     from utils import get_openai_api_key
 
+    get_openai_api_key()
+    os.environ["OPENAI_MODEL_NAME"] = "gpt-3.5-turbo"
+
 
 def create_support_agent():
     support_agent = Agent(
         role="Senior Support Representative",
-        goal="Be the most friendly and helpful " "support representative in your team",
+        goal="Be the most friendly and helpful support representative in your team",
         backstory=(
             "You work at crewAI (https://crewai.com) and "
             " are now working on providing "
@@ -148,6 +147,7 @@ def main():
         "Can you provide guidance?",
     }
     result = crew.kickoff(inputs=inputs)
+    print(f"result: {result}")
 
 
 if __name__ == "__main__":
