@@ -1,9 +1,6 @@
-import crewai
-import crewai_tools
-import langchain_community
-
 from crewai import Agent, Task, Crew
 from crewai_tools import ScrapeWebsiteTool, SerperDevTool
+from pydantic import BaseModel
 
 
 def filter_warnings():
@@ -14,19 +11,18 @@ def filter_warnings():
 
 def init():
     import os
-    from utils import get_openai_api_key, pretty_print_result
+    from utils import get_openai_api_key
     from utils import get_serper_api_key
 
-    openai_api_key = get_openai_api_key()
+    get_openai_api_key()
     os.environ["OPENAI_MODEL_NAME"] = "gpt-3.5-turbo"
     os.environ["SERPER_API_KEY"] = get_serper_api_key()
-    return openai_api_key
 
 
 def create_venue_coordinator_agent(tools):
     venue_coordinator = Agent(
         role="Venue Coordinator",
-        goal="Identify and book an appropriate venue " "based on event requirements",
+        goal="Identify and book an appropriate venue based on event requirements",
         tools=tools,
         verbose=True,
         backstory=(
@@ -43,7 +39,7 @@ def create_venue_coordinator_agent(tools):
 def create_logistics_manager_agent(tools):
     logistics_manager = Agent(
         role="Logistics Manager",
-        goal=("Manage all logistics for the event " "including catering and equipmen"),
+        goal=("Manage all logistics for the event including catering and equipmen"),
         tools=tools,
         verbose=True,
         backstory=(
@@ -59,7 +55,7 @@ def create_logistics_manager_agent(tools):
 def create_marketing_communications_agent(tools):
     marketing_communications_agent = Agent(
         role="Marketing and Communications Agent",
-        goal="Effectively market the event and " "communicate with participants",
+        goal="Effectively market the event and communicate with participants",
         tools=tools,
         verbose=True,
         backstory=(
@@ -70,9 +66,6 @@ def create_marketing_communications_agent(tools):
         ),
     )
     return marketing_communications_agent
-
-
-from pydantic import BaseModel
 
 
 class VenueDetails(BaseModel):
@@ -139,9 +132,6 @@ def main():
     filter_warnings()
     init()
 
-    # tools
-    from crewai_tools import ScrapeWebsiteTool, SerperDevTool
-
     search_tool = SerperDevTool()
     scrape_tool = ScrapeWebsiteTool()
 
@@ -188,6 +178,8 @@ def main():
         "venue_type": "Conference Hall",
     }
     result = crew.kickoff(inputs=event_details)
+
+    print(f"result: {result}")
 
 
 if __name__ == "__main__":

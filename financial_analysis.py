@@ -1,4 +1,3 @@
-import langchain_community
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 from langchain_openai import ChatOpenAI
@@ -12,7 +11,7 @@ def filter_warnings():
 
 def init():
     import os
-    from utils import get_openai_api_key, pretty_print_result
+    from utils import get_openai_api_key
     from utils import get_serper_api_key
 
     openai_api_key = get_openai_api_key()
@@ -169,8 +168,6 @@ def main():
     init()
 
     # tools
-    from crewai_tools import ScrapeWebsiteTool, SerperDevTool
-
     search_tool = SerperDevTool()
     scrape_tool = ScrapeWebsiteTool()
 
@@ -217,6 +214,7 @@ def main():
 
     ### this execution will take some time to run
     result = crew.kickoff(inputs=financial_trading_inputs)
+    print(f"result: {result}")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,10 @@
-import crewai
 from crewai import Agent, Task, Crew
-from crewai_tools import ScrapeWebsiteTool, SerperDevTool
-from langchain_openai import ChatOpenAI
+from crewai_tools import (
+    FileReadTool,
+    ScrapeWebsiteTool,
+    MDXSearchTool,
+    SerperDevTool,
+)
 
 
 def filter_warnings():
@@ -12,7 +15,7 @@ def filter_warnings():
 
 def init():
     import os
-    from utils import get_openai_api_key, pretty_print_result
+    from utils import get_openai_api_key
     from utils import get_serper_api_key
 
     openai_api_key = get_openai_api_key()
@@ -25,8 +28,7 @@ def init():
 def create_researcher_agent(research_tools):
     researcher = Agent(
         role="Tech Job Researcher",
-        goal="Make sure to do amazing analysis on "
-        "job posting to help job applicants",
+        goal="Make sure to do amazing analysis on job posting to help job applicants",
         tools=research_tools,
         verbose=True,
         backstory=(
@@ -65,7 +67,7 @@ def create_profiler_agent(profile_tools):
 def create_strategy_agent(strategy_tools):
     strategy_agent = Agent(
         role="Resume Strategist for Engineers",
-        goal="Find all the best ways to make a " "resume stand out in the job market.",
+        goal="Find all the best ways to make a resume stand out in the job market.",
         tools=strategy_tools,
         verbose=True,
         backstory=(
@@ -186,13 +188,6 @@ def main():
     init()
 
     # tools
-    from crewai_tools import (
-        FileReadTool,
-        ScrapeWebsiteTool,
-        MDXSearchTool,
-        SerperDevTool,
-    )
-
     search_tool = SerperDevTool()
     scrape_tool = ScrapeWebsiteTool()
     read_resume = FileReadTool(file_path="./fake_resume.md")
@@ -246,6 +241,7 @@ def main():
     }
 
     result = crew.kickoff(inputs=job_application_inputs)
+    print(f"result: {result}")
 
 
 if __name__ == "__main__":
