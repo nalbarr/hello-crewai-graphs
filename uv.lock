@@ -977,6 +977,7 @@ dependencies = [
     { name = "crewai-tools" },
     { name = "langchain-community" },
     { name = "marimo" },
+    { name = "pandas" },
 ]
 
 [package.dev-dependencies]
@@ -991,6 +992,7 @@ requires-dist = [
     { name = "crewai-tools", specifier = ">=0.47.0" },
     { name = "langchain-community", specifier = ">=0.3.24" },
     { name = "marimo", specifier = ">=0.13.15" },
+    { name = "pandas", specifier = ">=2.3.0" },
 ]
 
 [package.metadata.requires-dev]
