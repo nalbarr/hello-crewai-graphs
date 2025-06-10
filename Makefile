@@ -7,11 +7,16 @@ help:
 	@echo make run-2
 	@echo make run-3
 	@echo make run-4
+	@echo make run-5
+	@echo make run-6
 
 init:
 	uv venv --python 3.12
 
 run: run-1
+
+clean:
+	rm -rf ./db
 
 run-1:
 	uv run research_write_article.py
@@ -24,3 +29,9 @@ run-3:
 
 run-4:
 	uv run event_planning.py
+
+run-5: clean
+	uv run financial_analysis.py
+
+run-6:
+	uv run multi_agent.py
