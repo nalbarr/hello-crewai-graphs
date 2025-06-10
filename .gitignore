@@ -195,3 +195,6 @@ cython_debug/
 
 # marimo
 __marimo__
+
+# chromadb
+./db
