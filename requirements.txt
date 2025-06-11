@@ -1,4 +1,8 @@
 crewai
-crewai_tools
+# crewai_tools
+crewai-tools
 langchain_community
 marimo
+openinference-instrumentation-crewai
+crewai
+crewai-tools
