@@ -38,3 +38,22 @@ def pretty_print_result(result):
         else:
             parsed_result.append(line)
     return "\n".join(parsed_result)
+
+
+def register_phoenix_otel(project_name, endpoint):
+    from opentelemetry import trace as trace_api
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+
+    tracer_provider = trace_sdk.TracerProvider()
+    span_exporter = OTLPSpanExporter("http://localhost:6006/v1/traces")
+    span_processor = SimpleSpanProcessor(span_exporter)
+    tracer_provider.add_span_processor(span_processor)
+    trace_api.set_tracer_provider(tracer_provider)
+
+    from openinference.instrumentation.crewai import CrewAIInstrumentor
+
+    CrewAIInstrumentor().instrument(
+        skip_dep_check=True, tracer_provider=tracer_provider
+    )

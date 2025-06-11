@@ -14,6 +14,11 @@ help:
 	@echo make format
 	@echo ""
 	@echo make run
+	@echo make clean
+	@echo ""
+	@echo make docker-pull-arize
+	@echo make docker-run-arize
+	@echo make open-ui-arize
 	@echo ""
 	@echo make run-1
 	@echo make run-2
@@ -24,7 +29,7 @@ help:
 	@echo make run-7
 
 init:
-	uv venv --python 3.12
+	uv venv --python 3.11
 
 # flake8 --max-line-length=100 $(SRC)
 lint:
@@ -35,6 +40,15 @@ format:
 	ruff format
 
 run: run-1
+	
+docker-pull-arize:
+	docker pull arizephoenix/phoenix
+
+docker-run-arize:
+	docker run -p 6006:6006 -p 4317:4317 -i -t arizephoenix/phoenix:latest
+
+open-ui-arize:
+	open http://localhost:6006
 
 clean:
 	rm -rf ./db

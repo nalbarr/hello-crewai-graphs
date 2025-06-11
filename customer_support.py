@@ -11,10 +11,15 @@ def filter_warnings():
 
 def init():
     import os
-    from utils import get_openai_api_key
+    from utils import get_openai_api_key, register_phoenix_otel
 
     get_openai_api_key()
     os.environ["OPENAI_MODEL_NAME"] = "gpt-3.5-turbo"
+
+    register_phoenix_otel(
+        project_name="default",
+        endpoint="http://localhost:6006/v1/traces",
+    )
 
 
 def create_support_agent():

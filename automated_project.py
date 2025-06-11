@@ -13,10 +13,15 @@ def filter_warnings():
 
 
 def init():
-    from utils import get_openai_api_key
+    from utils import get_openai_api_key, register_phoenix_otel
 
     get_openai_api_key()
     os.environ["OPENAI_MODEL_NAME"] = "gpt-4o-mini"
+
+    register_phoenix_otel(
+        project_name="default",
+        endpoint="http://localhost:6006/v1/traces",
+    )
 
     files = {"agents": "config/agents.yaml", "tasks": "config/tasks.yaml"}
 
