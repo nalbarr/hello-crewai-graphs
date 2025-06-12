@@ -45,4 +45,3 @@ resource_allocation:
     responsible for each task in the {project_type} project, along with
     start and end dates. Your final output MUST also include a summary
     explaining the rationale behind each allocation decision.
-

@@ -23,6 +23,8 @@ def init():
         endpoint="http://localhost:6006/v1/traces",
     )
 
+
+def get_configs() -> List:
     files = {"agents": "config/agents.yaml", "tasks": "config/tasks.yaml"}
 
     configs = {}
@@ -30,10 +32,7 @@ def init():
         with open(file_path, "r") as file:
             configs[config_type] = yaml.safe_load(file)
 
-    agents_config = configs["agents"]
-    tasks_config = configs["tasks"]
-
-    return agents_config, tasks_config
+    return configs
 
 
 def project_costs(crew: Crew):
@@ -52,7 +51,11 @@ def project_costs(crew: Crew):
 def main():
     filter_warnings()
 
-    agents_config, tasks_config = init()
+    init()
+
+    configs = get_configs()
+    agents_config = configs["agents"]
+    tasks_config = configs["tasks"]
 
     # models
     class TaskEstimate(BaseModel):
