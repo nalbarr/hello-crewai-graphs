@@ -6,7 +6,8 @@ SRC= utils.py \
 	financial_analysis.py \
 	multi_agent.py \
 	automated_project.py \
-	project_progress.py
+	project_progress.py \
+	support_data_analysis.py
 
 help:
 	@echo make init
@@ -30,6 +31,7 @@ help:
 	@echo make run-7
 	@echo make run-8
 	@echo make open-8-flow
+	@echo make run-9
 
 init:
 	uv venv --python 3.11
@@ -83,3 +85,6 @@ run-8:
 
 open-8-flow:
 	open crewai_flow.html
+
+run-9:
+	uv run support_data_analysis.py 	
